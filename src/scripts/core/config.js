@@ -1,0 +1,14 @@
+export const BIRD_HITBOX_RADIUS = 0.45;
+export const BIRD_HITBOX_OFFSET = '0 0 0';
+export const BIRD_MODEL_OFFSET = '-2 -2.5 0';
+export const BIRD_FALL_MS = 7000;
+export const BIRD_FALL_FORWARD_DISTANCE = 20;
+export const DEFAULT_WATER_PLANE_Y = -81;
+export const MAGAZINE_SIZE = 7;
+export const RELOAD_MS = 3000;
+export const GAME_START_EVENT = 'game-start';
+export const GAME_PAUSE_EVENT = 'game-pause';
+export const GAME_RESUME_EVENT = 'game-resume';
+export const GAME_END_EVENT = 'game-end';
+export const GAME_RESTART_EVENT = 'game-restart';
+export const BIRD_MULTIPLIER_STEP_MS = 18000;

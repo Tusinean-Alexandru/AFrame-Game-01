@@ -1,0 +1,17 @@
+{
+  "name": "aframe-vr-game",
+  "version": "1.0.0",
+  "description": "Minimal A-Frame starter using plain HTML, CSS, and JavaScript.",
+  "private": true,
+  "scripts": {
+    "start": "npx http-server . -o"
+  },
+  "keywords": [
+    "aframe",
+    "vr",
+    "html",
+    "css",
+    "javascript"
+  ],
+  "license": "MIT"
+}

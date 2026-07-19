@@ -1,0 +1,249 @@
+:root {
+    color-scheme: light;
+    --ink: #0f172a;
+    --panel: rgba(255, 255, 255, 0.82);
+    --panel-border: rgba(15, 23, 42, 0.12);
+    --accent: #ea580c;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body {
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    color: var(--ink);
+    background:
+        radial-gradient(circle at top, #eff6ff 0%, #dbeafe 45%, #bfdbfe 100%);
+}
+
+body {
+    position: relative;
+}
+
+body.pre-game #scoreOverlay,
+body.pre-game .crosshair {
+    opacity: 0;
+}
+
+#startSplash {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    padding: 1.25rem;
+    background: radial-gradient(circle at 50% 35%, rgba(219, 234, 254, 0.3) 0%, rgba(2, 6, 23, 0.82) 65%);
+    pointer-events: auto;
+}
+
+#startSplash.hidden {
+    display: none;
+}
+
+#pauseSplash {
+    position: fixed;
+    inset: 0;
+    z-index: 19;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(2, 6, 23, 0.5);
+    pointer-events: auto;
+}
+
+#pauseSplash.hidden {
+    display: none;
+}
+
+#gameOverSplash {
+    position: fixed;
+    inset: 0;
+    z-index: 21;
+    display: grid;
+    place-items: center;
+    padding: 1rem;
+    background: rgba(2, 6, 23, 0.62);
+    pointer-events: auto;
+}
+
+#gameOverSplash.hidden {
+    display: none;
+}
+
+.pause-card {
+    width: min(26rem, 100%);
+    padding: 1.1rem 1.3rem;
+    border-radius: 0.9rem;
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    background: rgba(15, 23, 42, 0.76);
+    color: #f8fafc;
+    text-align: center;
+    box-shadow: 0 16px 42px rgba(2, 6, 23, 0.35);
+}
+
+.pause-card h2 {
+    margin: 0;
+    font-size: clamp(1.35rem, 2.2vw, 1.8rem);
+}
+
+.pause-card p {
+    margin: 0.45rem 0 0;
+    color: #e2e8f0;
+}
+
+.game-over-card {
+    width: min(30rem, 100%);
+}
+
+.game-over-score {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #ffffff;
+}
+
+.overlay-actions {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+.start-card {
+    width: min(40rem, 100%);
+    padding: clamp(1.3rem, 2vw, 2rem);
+    border-radius: 1rem;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    background: rgba(15, 23, 42, 0.72);
+    backdrop-filter: blur(8px);
+    color: #f8fafc;
+    box-shadow: 0 24px 64px rgba(2, 6, 23, 0.4);
+    text-align: center;
+}
+
+.start-eyebrow {
+    margin: 0 0 0.55rem;
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #fb923c;
+}
+
+.start-text {
+    margin: 0.9rem 0 1.1rem;
+    color: #e2e8f0;
+}
+
+#startGameButton,
+#pauseFinishButton,
+#playAgainButton {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.85rem 1.35rem;
+    font: inherit;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(135deg, #ea580c, #f97316);
+    cursor: pointer;
+    box-shadow: 0 16px 34px rgba(234, 88, 12, 0.35);
+}
+
+#startGameButton:hover,
+#pauseFinishButton:hover,
+#playAgainButton:hover {
+    transform: translateY(-1px);
+}
+
+#scoreOverlay {
+    position: fixed;
+    top: 0.9rem;
+    right: 0.9rem;
+    z-index: 12;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    pointer-events: none;
+}
+
+.hud-value {
+    padding: 0.5rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.45);
+    border-radius: 0.6rem;
+    background: rgba(15, 23, 42, 0.48);
+    backdrop-filter: blur(6px);
+    color: #ffffff;
+    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.55);
+    font-size: clamp(0.95rem, 1.1vw, 1.15rem);
+    font-weight: 700;
+    letter-spacing: 0.01em;
+}
+
+.crosshair {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 14px;
+    height: 14px;
+    transform: translate(-50%, -50%);
+    z-index: 9;
+    pointer-events: none;
+}
+
+.crosshair::before,
+.crosshair::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    box-shadow: 0 0 0 1px rgba(15, 23, 42, 0.55);
+    transform: translate(-50%, -50%);
+    transition: background-color 110ms ease, box-shadow 110ms ease;
+}
+
+.crosshair.hit::before,
+.crosshair.hit::after {
+    background: rgba(239, 68, 68, 0.96);
+    box-shadow: 0 0 0 1px rgba(127, 29, 29, 0.8), 0 0 8px rgba(239, 68, 68, 0.7);
+}
+
+.crosshair.reloading::before,
+.crosshair.reloading::after {
+    background: rgba(250, 204, 21, 0.98);
+    box-shadow: 0 0 0 1px rgba(113, 63, 18, 0.82), 0 0 8px rgba(250, 204, 21, 0.72);
+}
+
+.crosshair::before {
+    width: 14px;
+    height: 2px;
+}
+
+.crosshair::after {
+    width: 2px;
+    height: 14px;
+}
+
+h1 {
+    margin: 0;
+    font-size: clamp(1.8rem, 2vw + 1rem, 3rem);
+    line-height: 1;
+}
+
+p {
+    margin: 0.75rem 0 0;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+a-scene {
+    width: 100vw;
+    height: 100vh;
+}
+
+@media (max-width: 720px) {
+}

@@ -1,0 +1,11 @@
+Model Information:
+* title:	M37 Ithaca Shotgun
+* source:	https://sketchfab.com/3d-models/m37-ithaca-shotgun-7dc579288a31495e86e9c4d4d3ccba04
+* author:	Gustaw Mackay (https://sketchfab.com/northernpike)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "M37 Ithaca Shotgun" (https://sketchfab.com/3d-models/m37-ithaca-shotgun-7dc579288a31495e86e9c4d4d3ccba04) by Gustaw Mackay (https://sketchfab.com/northernpike) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

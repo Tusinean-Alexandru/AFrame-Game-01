@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bird Hunt VR - Sky Shooter</title>
+    <link rel="icon" type="image/png" href="bird_icon.png">
+    <link rel="stylesheet" href="src/styles/main.css">
+    <script src="https://aframe.io/releases/1.7.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/aframe-extras@7.5.4/dist/aframe-extras.min.js"></script>
+</head>
+<body class="pre-game">
+    <div id="startSplash" role="dialog" aria-modal="true" aria-labelledby="startSplashTitle">
+        <div class="start-card">
+            <p class="start-eyebrow">Bird Hunt</p>
+            <h1 id="startSplashTitle">Ready To Hunt?</h1>
+            <p class="start-text">Shoot birds to score points. Missed birds cost points. You have 7 shots, then a 3 second reload.</p>
+            <button id="startGameButton" type="button">Start Game</button>
+        </div>
+    </div>
+
+    <div id="pauseSplash" class="hidden" role="status" aria-live="polite">
+        <div class="pause-card">
+            <h2>Paused</h2>
+            <p>Press P to resume.</p>
+            <div class="overlay-actions">
+                <button id="pauseFinishButton" type="button">Finish Game</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="gameOverSplash" class="hidden" role="dialog" aria-modal="true" aria-labelledby="gameOverTitle">
+        <div class="pause-card game-over-card">
+            <p class="start-eyebrow">Round Over</p>
+            <h2 id="gameOverTitle">Final Score</h2>
+            <p id="finalScoreValue" class="game-over-score">Score: 0</p>
+            <div class="overlay-actions">
+                <button id="playAgainButton" type="button">Play Again</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="scoreOverlay" aria-live="polite" aria-atomic="true">
+        <span class="hud-value" id="scoreOverlayValue">Score: 0</span>
+        <span class="hud-value" id="ammoOverlayValue">Ammo: 7/7</span>
+    </div>
+
+    <div class="crosshair" aria-hidden="true"></div>
+
+    <a-scene background="color: #dbeafe" bird-spawner desktop-pointer-lock>
+        <a-assets>
+            <a-asset-item id="placeModel" src="src/models/place/scene.gltf"></a-asset-item>
+            <a-asset-item id="birdModel" src="src/models/flying_animated_bird/scene.gltf"></a-asset-item>
+            <a-asset-item id="shotgunModel" src="src/models/shotgun/scene.gltf"></a-asset-item>
+            <a-asset-item id="waterModel" src="src/models/water/scene.gltf"></a-asset-item>
+            <img id="skyTexture" src="src/models/textures/Scene_-_Root_diffuse.jpeg" alt="Sky texture">
+        </a-assets>
+
+        <a-entity position="0 1.6 2">
+            <a-camera
+                look-controls="pointerLockEnabled: true"
+                wasd-controls
+                right-click-zoom
+                bird-shooter
+                cursor="rayOrigin: entity; fuse: false"
+                raycaster="objects: .shootable-bird; far: 180">
+                <a-entity
+                    id="vrReticle"
+                    position="0 0 -1"
+                    geometry="primitive: ring; radiusInner: 0.0035; radiusOuter: 0.005"
+                    material="shader: flat; color: #ffffff; opacity: 0.92">
+                </a-entity>
+                <a-entity id="vrHudRoot" vr-screen-anchor="anchor: top-right; distance: 1.15; marginX: 0.18; marginY: 0.16" visible="false">
+                    <a-entity position="0 0 0" scale="0.85 0.85 0.85">
+                        <a-plane width="0.56" height="0.12" color="#0f172a" material="shader: flat; opacity: 0.72"></a-plane>
+                        <a-entity id="vrScoreHudText" position="0 0 0.01" text="value: Score: 0; align: center; color: #ffffff; width: 1.4"></a-entity>
+                    </a-entity>
+                    <a-entity position="0 -0.13 0" scale="0.85 0.85 0.85">
+                        <a-plane width="0.56" height="0.12" color="#0f172a" material="shader: flat; opacity: 0.72"></a-plane>
+                        <a-entity id="vrAmmoHudText" position="0 0 0.01" text="value: Ammo: 7/7; align: center; color: #ffffff; width: 1.4"></a-entity>
+                    </a-entity>
+                </a-entity>
+                <a-entity id="vrUiRoot" vr-screen-anchor="anchor: center; distance: 1.2" visible="false">
+                    <a-entity id="vrStartSplash">
+                        <a-plane width="1.74" height="0.98" color="#0f172a" material="shader: flat; opacity: 0.9"></a-plane>
+                        <a-plane width="1.66" height="0.9" color="#172036" material="shader: flat; opacity: 0.96" position="0 0 0.01"></a-plane>
+                        <a-entity position="0 0.28 0.02" text="value: Bird Hunt; align: center; color: #fb923c; width: 2.7"></a-entity>
+                        <a-entity position="0 0.1 0.02" text="value: Ready To Hunt?; align: center; color: #ffffff; width: 3.6"></a-entity>
+                        <a-entity position="0 -0.06 0.02" text="value: Shoot birds to score.; align: center; color: #e2e8f0; width: 2.7"></a-entity>
+                        <a-entity position="0 -0.16 0.02" text="value: Missed birds cost points.; align: center; color: #e2e8f0; width: 2.7"></a-entity>
+                        <a-entity position="0 -0.26 0.02" text="value: 7 shots, then reload.; align: center; color: #f8fafc; width: 2.5"></a-entity>
+                        <a-plane width="0.82" height="0.14" color="#ea580c" material="shader: flat; opacity: 0.96" position="0 -0.4 0.02"></a-plane>
+                        <a-entity position="0 -0.4 0.03" text="value: Enter to start; align: center; color: #ffffff; width: 1.9"></a-entity>
+                    </a-entity>
+                    <a-entity id="vrPauseSplash" visible="false">
+                        <a-plane width="1.56" height="0.74" color="#0f172a" material="shader: flat; opacity: 0.88"></a-plane>
+                        <a-plane width="1.48" height="0.66" color="#172036" material="shader: flat; opacity: 0.96" position="0 0 0.01"></a-plane>
+                        <a-entity position="0 0.18 0.02" text="value: Paused; align: center; color: #ffffff; width: 3.1"></a-entity>
+                        <a-entity position="0 0.01 0.02" text="value: Press P to resume.; align: center; color: #e2e8f0; width: 2.7"></a-entity>
+                        <a-entity position="0 -0.1 0.02" text="value: Press F to finish game.; align: center; color: #e2e8f0; width: 2.7"></a-entity>
+                        <a-plane width="0.76" height="0.13" color="#ea580c" material="shader: flat; opacity: 0.94" position="0 -0.26 0.02"></a-plane>
+                        <a-entity position="0 -0.26 0.03" text="value: Resume / Finish; align: center; color: #ffffff; width: 1.85"></a-entity>
+                    </a-entity>
+                    <a-entity id="vrGameOverSplash" visible="false">
+                        <a-plane width="1.58" height="0.8" color="#0f172a" material="shader: flat; opacity: 0.9"></a-plane>
+                        <a-plane width="1.5" height="0.72" color="#172036" material="shader: flat; opacity: 0.96" position="0 0 0.01"></a-plane>
+                        <a-entity position="0 0.22 0.02" text="value: Round Over; align: center; color: #fb923c; width: 3"></a-entity>
+                        <a-entity id="vrFinalScoreText" position="0 0.04 0.02" text="value: Score: 0; align: center; color: #ffffff; width: 3.1"></a-entity>
+                        <a-entity position="0 -0.12 0.02" text="value: Press R to play again.; align: center; color: #e2e8f0; width: 2.8"></a-entity>
+                        <a-plane width="0.8" height="0.13" color="#ea580c" material="shader: flat; opacity: 0.95" position="0 -0.28 0.02"></a-plane>
+                        <a-entity position="0 -0.28 0.03" text="value: Play Again; align: center; color: #ffffff; width: 1.9"></a-entity>
+                    </a-entity>
+                </a-entity>
+                <a-entity
+                    id="weaponAnchor"
+                    position="0.16 -0.16 -0.34"
+                    rotation="-6 -10 -4">
+                    <a-entity
+                        id="muzzleFlash"
+                        position="0.18 0.065 -1.05"
+                        visible="false"
+                        geometry="primitive: sphere; radius: 0.028"
+                        material="shader: flat; color: #ffd166; emissive: #ffef9f; emissiveIntensity: 1; opacity: 0.75">
+                    </a-entity>
+                    <a-entity
+                        id="shotgunModelEntity"
+                        gltf-model="#shotgunModel"
+                        position="0.02 -0.03 0.1"
+                        rotation="0 90 3"
+                        scale="0.3 0.3 0.3">
+                    </a-entity>
+                </a-entity>
+            </a-camera>
+        </a-entity>
+
+        <a-light type="ambient" color="#ffffff" intensity="0.8"></a-light>
+        <a-light type="directional" color="#fff7ed" intensity="1.1" position="-2 4 3"></a-light>
+
+        <a-entity
+            id="waterSurface"
+            gltf-model="#waterModel"
+            animation-mixer="clip: *; loop: repeat; timeScale: 1"
+            water-surface-fix
+            position="0 -80 -1000"
+            rotation="0 0 0"
+            scale="0.5 0.5 0.5">
+        </a-entity>
+
+        <a-plane
+            id="waterBackdrop"
+            position="0 -81 -1600"
+            rotation="-90 0 0"
+            width="5000"
+            height="5000"
+            color="#2f6f8d"
+            material="shader: standard; roughness: 0.28; metalness: 0.02; opacity: 0.88">
+        </a-plane>
+
+        <a-entity
+            id="placeScene"
+            gltf-model="#placeModel"
+            position="7 40 6"
+            rotation="0 0 0"
+            scale="25 25 25">
+        </a-entity>
+
+        <a-sky radius="9000" rotation="0 270 0" src="#skyTexture" material="repeat: 1 -1; offset: 0 0.97"></a-sky>
+
+    </a-scene>
+
+    <script type="module" src="src/scripts/main.js"></script>
+</body>
+</html>
