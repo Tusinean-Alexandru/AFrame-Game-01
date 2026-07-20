@@ -52,7 +52,6 @@
             <a-asset-item id="placeModel" src="src/models/place/scene.gltf"></a-asset-item>
             <a-asset-item id="birdModel" src="src/models/flying_animated_bird/scene.gltf"></a-asset-item>
             <a-asset-item id="shotgunModel" src="src/models/shotgun/scene.gltf"></a-asset-item>
-            <a-asset-item id="waterModel" src="src/models/water/scene.gltf"></a-asset-item>
             <img id="skyTexture" src="src/models/textures/Scene_-_Root_diffuse.jpeg" alt="Sky texture">
         </a-assets>
 
@@ -135,16 +134,6 @@
 
         <a-light type="ambient" color="#ffffff" intensity="0.8"></a-light>
         <a-light type="directional" color="#fff7ed" intensity="1.1" position="-2 4 3"></a-light>
-
-        <a-entity
-            id="waterSurface"
-            gltf-model="#waterModel"
-            animation-mixer="clip: *; loop: repeat; timeScale: 1"
-            water-surface-fix
-            position="0 -80 -1000"
-            rotation="0 0 0"
-            scale="0.5 0.5 0.5">
-        </a-entity>
 
         <a-plane
             id="waterBackdrop"

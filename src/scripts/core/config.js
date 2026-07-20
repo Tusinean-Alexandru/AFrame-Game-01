@@ -1,4 +1,4 @@
-export const BIRD_HITBOX_RADIUS = 0.45;
+export const BIRD_HITBOX_RADIUS = 0.54;
 export const BIRD_HITBOX_OFFSET = '0 0 0';
 export const BIRD_MODEL_OFFSET = '-2 -2.5 0';
 export const BIRD_FALL_MS = 7000;
